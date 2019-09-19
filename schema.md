@@ -1,0 +1,22 @@
+# Tables:
+
+Users
+Habits
+HabitRecords
+
+# Table Details
+
+users:
+- id (primary key)
+- name (string, 128 char.)
+- email (unique, string, 128 char.)
+
+habits:
+- id (primary key)
+- user_id (foreign key)
+- name (string, 128 char.)
+
+habit_records:
+- id (primary key)
+- habit_id (foreign key)
+- date 

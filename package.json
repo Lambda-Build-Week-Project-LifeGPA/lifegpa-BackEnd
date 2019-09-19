@@ -1,0 +1,25 @@
+{
+  "name": "LifeGPA-Backend",
+  "version": "1.0.0",
+  "description": "The backend API for the LifeGPA application.",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Sam Malanchuk",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "helmet": "^3.19.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.19.4",
+    "sqlite3": "^4.0.9"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  }
+}

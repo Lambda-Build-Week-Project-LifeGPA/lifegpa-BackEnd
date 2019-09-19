@@ -4,6 +4,11 @@ Users
 Habits
 HabitRecords
 
+## Relationships
+
+(One) Users <==> Habits (Many)
+(One) Habits <==> HabitRecords (Many)
+
 # Table Details
 
 users:

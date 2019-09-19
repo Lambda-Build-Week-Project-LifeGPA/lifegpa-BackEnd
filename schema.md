@@ -10,6 +10,7 @@ users:
 - id (primary key)
 - name (string, 128 char.)
 - email (unique, string, 128 char.)
+- password (string, 512)
 
 habits:
 - id (primary key)

@@ -16,7 +16,7 @@ function findBy(filter) {
 }
 
 function insertNew(user) {
-  return null;
+  return db('users').insert(user)
 }
 
 function selectAll() {

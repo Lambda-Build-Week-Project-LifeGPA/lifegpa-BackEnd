@@ -21,5 +21,5 @@ async function insertNew(user) {
 }
 
 function selectAll() {
-  return null;
+  return db('users').select('id', 'name', 'email');
 }

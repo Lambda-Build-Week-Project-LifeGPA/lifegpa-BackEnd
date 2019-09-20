@@ -30,11 +30,10 @@ router.post('/register', (req, res) => {
         const {id, name} = user;
         res.status(201).json({id, name, token});
       } else {
-        res.status(500).json({message: "Something went wrong creating the account"});
+        res.status(400).json({message: "Something went wrong creating the account"});
       }
     })
     .catch(err => {
-      console.log('this is the error', err);
       res.status(500).json({message: "Server error creating the account"});
     })
 });
@@ -50,11 +49,10 @@ router.post('/login', (req, res) => {
         const {id, name} = user;
         res.status(200).json({id, name, token});
       } else {
-        res.status(401).json({message: "The username or password is incorrect"});
+        res.status(400).json({message: "The email or password is incorrect"});
       }
     })
     .catch(err => {
-      console.log(err);
       res.status(500).json({message: "Server error searching user"});
     })
 });
@@ -69,11 +67,10 @@ router.get('/:id', (req, res) => {
         const {name, email, id} = user;
         res.status(200).json({id, name, email});
       } else {
-        res.status(500).json({message: "Could not find user by ID"});
+        res.status(400).json({message: "Could not find user by ID"});
       }
     })
     .catch(err => {
-      console.log('this is the error', err);
       res.status(500).json({message: "Server error searching user"});
     })
 });

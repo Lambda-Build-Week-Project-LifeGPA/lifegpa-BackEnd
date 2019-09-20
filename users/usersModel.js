@@ -8,16 +8,16 @@ module.exports = {
 }
 
 function findById(id) {
-  return db('users').select('id', 'name', 'email').where({id}).first();
+  return db('users').where(id).first();
 }
 
 function findBy(filter) {
-  return null;
+  return db('users').where(filter).first();
 }
 
 async function insertNew(user) {
   const [id] = await db('users').insert(user);
-  return findById(id);
+  return findById({id});
 }
 
 function selectAll() {

@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 });
 
 // POST requires an object {username, email, password}
-router.post('/', (req, res) => {
+router.post('/register', (req, res) => {
   // get the new user object being sent with the request
   const { body } = req;
   // encrypt the password
@@ -21,7 +21,8 @@ router.post('/', (req, res) => {
     .then(user => {
       if(user) {
         const token = generateToken(user);
-        res.status(201).json({message: "The account has been created!", token});
+        const {id, name} = user;
+        res.status(201).json({id, name, token});
       } else {
         res.status(500).json({message: "Something went wrong creating the account"});
       }
@@ -32,14 +33,35 @@ router.post('/', (req, res) => {
     })
 });
 
-// GET requires an ID parameter and returns the name and email if user exists
+// POST endpoint to login, returns success message and token upon login
+router.post('/login', (req, res) => {
+  const {email, password} = req.body;
+
+  Users.findBy({email})
+    .then(user => {
+      if(user && bcrypt.compareSync(password, user.password)) {
+        const token = generateToken(user)
+        const {id, name} = user;
+        res.status(200).json({id, name, token});
+      } else {
+        res.status(401).json({message: "The username or password is incorrect"});
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({message: "Server error searching user"});
+    })
+});
+
+// GET requires an ID parameter and returns user if exists
 router.get('/:id', (req, res) => {
   const {id} = req.params;
 
-  Users.findById(id)
+  Users.findById({id})
     .then(user => {
       if(user) {
-        res.status(201).json(user);
+        const {name, email, id} = user;
+        res.status(200).json({id, name, email});
       } else {
         res.status(500).json({message: "Could not find user by ID"});
       }

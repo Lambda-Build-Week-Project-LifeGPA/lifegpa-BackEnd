@@ -20,7 +20,8 @@ router.post('/', (req, res) => {
   Users.insertNew(body)
     .then(user => {
       if(user) {
-        res.status(201).json({message: "The account has been created!"});
+        const token = generateToken(user);
+        res.status(201).json({message: "The account has been created!", token});
       } else {
         res.status(500).json({message: "Something went wrong creating the account"});
       }
@@ -30,5 +31,34 @@ router.post('/', (req, res) => {
       res.status(500).json({message: "Server error creating the account"});
     })
 });
+
+// GET requires an ID parameter and returns the name and email if user exists
+router.get('/:id', (req, res) => {
+  const {id} = req.params;
+
+  Users.findById(id)
+    .then(user => {
+      if(user) {
+        res.status(201).json(user);
+      } else {
+        res.status(500).json({message: "Could not find user by ID"});
+      }
+    })
+    .catch(err => {
+      console.log('this is the error', err);
+      res.status(500).json({message: "Server error searching user"});
+    })
+});
+
+function generateToken(user) {
+  const payload = {
+    sub: user.id,
+    name: user.name
+  };
+  const options = {
+    expiresIn: '7d'
+  };
+  return jwt.sign(payload, process.env.JWT_SECRET, options);
+}
 
 module.exports = router;

@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const Users = require('./usersModel.js');
 
@@ -11,6 +13,8 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   // get the new user object being sent with the request
   const { body } = req;
+  // encrypt the password
+  body.password = bcrypt.hashSync(body.password, 6);
 
   // user data is inputted to user model function
   Users.insertNew(body)

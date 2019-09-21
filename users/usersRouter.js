@@ -2,6 +2,7 @@ const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// need the users model imported to use db functions in endpoints
 const Users = require('./usersModel.js');
 
 // GET provides a list of all the users
@@ -75,6 +76,7 @@ router.get('/:id', (req, res) => {
     })
 });
 
+// takes in a user object and returns an encrypted json web token with a head, payload and signature
 function generateToken(user) {
   const payload = {
     sub: user.id,

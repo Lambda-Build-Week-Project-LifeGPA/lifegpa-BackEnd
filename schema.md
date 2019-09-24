@@ -19,10 +19,11 @@ users:
 
 habits:
 - id (primary key)
-- user_id (foreign key)
 - name (string, 128 char.)
+- createdOn
+- userId (foreign key)
 
 habit_records:
 - id (primary key)
-- habit_id (foreign key)
-- date 
+- completedOn (date) 
+- habitId (foreign key)

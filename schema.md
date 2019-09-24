@@ -15,12 +15,13 @@ users:
 - id (primary key)
 - name (string, 128 char.)
 - email (unique, string, 128 char.)
+- createdOn (date)
 - password (string, 512)
 
 habits:
 - id (primary key)
 - name (string, 128 char.)
-- createdOn
+- createdOn (date)
 - userId (foreign key)
 
 habit_records:

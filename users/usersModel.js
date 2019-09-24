@@ -25,5 +25,5 @@ async function insertNew(user) {
 
 // returns the id, name, email for all the users in the database
 function selectAll() {
-  return db('users').select('id', 'name', 'email');
+  return db('users').select('id', 'name', 'email', 'createdOn');
 }

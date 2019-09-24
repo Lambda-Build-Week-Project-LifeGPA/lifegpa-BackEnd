@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
+const {formatDate} = require('../special.js');
 const jwt = require('jsonwebtoken');
 
 // need the users model imported to use db functions in endpoints
@@ -22,14 +23,16 @@ router.post('/register', (req, res) => {
   const { body } = req;
   // encrypt the password
   body.password = bcrypt.hashSync(body.password, 6);
+  const newDate = Date.now();
+  body.createdOn = body.createdOn || formatDate(newDate);
 
   // user data is inputted to user model function
   Users.insertNew(body)
     .then(user => {
       if(user) {
         const token = generateToken(user);
-        const {id, name} = user;
-        res.status(201).json({id, name, token});
+        const {id, name, createdOn} = user;
+        res.status(201).json({id, name, createdOn, token});
       } else {
         res.status(400).json({message: "Something went wrong creating the account"});
       }
@@ -47,8 +50,8 @@ router.post('/login', (req, res) => {
     .then(user => {
       if(user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user)
-        const {id, name} = user;
-        res.status(200).json({id, name, token});
+        const {id, name, createdOn} = user;
+        res.status(200).json({id, name, createdOn, token});
       } else {
         res.status(400).json({message: "The email or password is incorrect"});
       }
@@ -65,8 +68,8 @@ router.get('/:id', (req, res) => {
   Users.findById({id})
     .then(user => {
       if(user) {
-        const {name, email, id} = user;
-        res.status(200).json({id, name, email});
+        const {name, email, id, createdOn} = user;
+        res.status(200).json({id, name, email, createdOn});
       } else {
         res.status(400).json({message: "Could not find user by ID"});
       }

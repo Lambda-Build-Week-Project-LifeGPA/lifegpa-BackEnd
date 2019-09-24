@@ -1,7 +1,9 @@
 const db = require('../database/dbConfig.js');
 
 module.exports = {
-  createHabit
+  createHabit,
+  singleHabit,
+  getHabits
 }
 
 // takes in new habit object (name, userId) and returns the created habit object
@@ -17,4 +19,9 @@ function singleHabit(habitData) {
   const {userId} = habitData;
   const id = habitData.habitId;
   return db('habits').where({id, userId}).first();
+}
+
+// takes in a user ID and returns all habits associated with the user
+function getHabits(userId) {
+  return db('habits').where({userId});
 }

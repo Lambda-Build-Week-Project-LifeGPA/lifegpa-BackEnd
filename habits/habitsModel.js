@@ -33,7 +33,8 @@ async function getDate(userId, date) {
   // SELECT * from habits as h LEFTJOIN habit_records as r WHERE userId = userId
   const returnObject = await db('habits as h')
     .leftJoin('habit_records as r', 'h.id', 'r.habitId')
-    .select('h.id', 'h.name', 'h.createdOn', 'r.completed', 'r.date', 'r.habitId');
+    .select('h.id', 'h.name', 'h.createdOn', 'r.completed', 'r.date', 'r.habitId')
+//    .where('h.userId', userId);
   console.log(returnObject);
 
   //  const hs=[]

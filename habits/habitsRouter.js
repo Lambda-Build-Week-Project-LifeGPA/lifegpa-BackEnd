@@ -9,7 +9,11 @@ router.get('/user', (req, res) => {
   const userId = req.body.userId || req.decodedToken.sub;
   Habits.getHabits(userId)
     .then(result => {
-      res.status(201).json(result);
+      if(result.length > 0) {
+        res.status(201).json(result);
+      } else {
+        res.status(400).json({habits: 0});
+      }
     })
     .catch(err => {
       res.status(500).json({message: "Server error getting all habits by user ID"});

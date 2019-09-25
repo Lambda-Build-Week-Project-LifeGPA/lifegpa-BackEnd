@@ -5,8 +5,8 @@ const {formatDate} = require('../special.js');
 const Habits = require('./habitsModel.js');
 
 // GET habits of a user by userId
-router.get('/user/:userId', (req, res) => {
-  const {userId} = req.params;
+router.get('/user', (req, res) => {
+  const userId = req.body.userId || req.decodedToken.sub;
   Habits.getHabits(userId)
     .then(result => {
       res.status(201).json(result);
@@ -20,11 +20,13 @@ router.get('/user/:userId', (req, res) => {
 router.post('/', (req, res) => {
   const newDate = Date.now();
   req.body.createdOn = formatDate(newDate);
+  req.body.userId = req.body.userId || req.decodedToken.sub;
   Habits.createHabit(req.body)
     .then(result => {
       res.status(201).json(result);
     })
     .catch(err => {
+      console.log(err);
       res.status(500).json({message: "Server error adding a new habit"});
     })
 });

@@ -15,8 +15,15 @@ async function createHabit(habitData) {
 }
 
 // takes in an habit ID and user ID and returns the habit object and all the completion records
-function singleHabit(id) {
-  return db('habits').where({id}).first();
+async function singleHabit(id) {
+  var habitObject = await db('habits').where({id});
+  var habitsRecords = await db('habit_records').where('habitId', id).select('completed', 'date');
+  if(habitObject.length < 1) {
+    return null;
+  } else {
+    habitObject[0].habitsRecords = habitsRecords;
+    return habitObject;
+  }
 }
 
 // takes in a user ID and returns all habits associated with the user

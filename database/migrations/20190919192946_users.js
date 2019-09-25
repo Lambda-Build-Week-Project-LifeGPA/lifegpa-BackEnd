@@ -22,7 +22,8 @@ exports.up = function(knex) {
       })
     .createTable('habit_records', tbl => {
       tbl.increments();
-      tbl.date('completedOn').notNullable();
+      tbl.boolean('completed').notNullable();
+      tbl.date('date').notNullable();
       tbl.integer('habitId')
       .unsigned()
       .notNullable()

@@ -32,7 +32,7 @@ Optional: `userId` parameter, otherwise defaults to logged in user
 
 ## Success Response
 
-**Code** : `200 OK`
+**Code** : `201 CREATED`
 
 **Content example**
 

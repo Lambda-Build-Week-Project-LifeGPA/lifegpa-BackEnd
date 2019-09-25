@@ -10,7 +10,7 @@ router.get('/user', (req, res) => {
   Habits.getHabits(userId)
     .then(result => {
       if(result.length > 0) {
-        res.status(201).json(result);
+        res.status(200).json(result);
       } else {
         res.status(400).json({habits: 0});
       }
@@ -41,7 +41,7 @@ router.get('/single/:id', (req, res) => {
   Habits.singleHabit(id)
     .then(habit => {
       if(habit) {
-        res.status(201).json(habit);
+        res.status(200).json(habit);
       } else {
         res.status(400).json({message: "habit ID is invalid"});
       }

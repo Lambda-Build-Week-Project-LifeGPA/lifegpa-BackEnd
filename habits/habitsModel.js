@@ -30,6 +30,26 @@ async function singleHabit(id) {
 
 // takes in an habit ID and user ID and returns the habit object and all the completion records
 async function getDate(userId, date) {
+  // SELECT * from habits as h LEFTJOIN habit_records as r WHERE userId = userId
+  const returnObject = await db('habits as h')
+    .leftJoin('habit_records as r', 'h.id', 'r.habitId')
+    .select('h.id', 'h.name', 'h.createdOn', 'r.completed', 'r.date', 'r.habitId');
+  console.log(returnObject);
+
+  //  const hs=[]
+  //    for(let i = 0; i < returnObject.length; i ++){
+  //      let currHbObj = returnObject[i];
+  //     if(hs[currHbObj.id]){
+  //           //hs[records].push(currHbObj[completed])
+  //     }else{
+  //       hs.push()
+  //     }
+  //  }
+
+  return returnObject;
+
+  // return null;
+
   // var getHabits = await db('habits').where({userId});
   // var habitsRecords = await db('habit_records').where('habitId', id).select('completed', 'date');
   // if(habitObject.length < 1) {
@@ -38,7 +58,6 @@ async function getDate(userId, date) {
   //   habitObject[0].habitsRecords = habitsRecords;
   //   return habitObject;
   // }
-  return null;
 }
 
 function updateCompletion(habitRecord) {

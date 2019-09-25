@@ -47,4 +47,27 @@ router.get('/single/:id', (req, res) => {
     })
 });
 
+// GET a list of all habits and completion records for entered day (default today)
+router.get('/day', (req, res) => {
+  res.status(200).json({message: "nothing here yet"}); // working on this endpoint
+});
+
+router.post('/mark', (req, res) => {
+  var {habitId, completed} = req.body;
+  const newDate = Date.now();
+  const date = req.body.date || formatDate(newDate);
+  completed === undefined ? completed = true : completed = completed;
+  Habits.updateCompletion({completed, date, habitId})
+    .then(record => {
+      if(record) {
+        res.status(201).json(record);
+      } else {
+        res.status(400).json({message: "habit ID is invalid"});
+      }
+    })
+    .catch(err => {
+      res.status(500).json({message: "Server error getting habit data by ID"});
+    })
+});
+
 module.exports = router;

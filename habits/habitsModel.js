@@ -3,7 +3,9 @@ const db = require('../database/dbConfig.js');
 module.exports = {
   createHabit,
   singleHabit,
-  getHabits
+  getHabits,
+  getDate,
+  updateCompletion
 }
 
 // takes in new habit object (name, userId) and returns the created habit object
@@ -24,6 +26,23 @@ async function singleHabit(id) {
     habitObject[0].habitsRecords = habitsRecords;
     return habitObject;
   }
+}
+
+// takes in an habit ID and user ID and returns the habit object and all the completion records
+async function getDate(userId, date) {
+  // var getHabits = await db('habits').where({userId});
+  // var habitsRecords = await db('habit_records').where('habitId', id).select('completed', 'date');
+  // if(habitObject.length < 1) {
+  //   return null;
+  // } else {
+  //   habitObject[0].habitsRecords = habitsRecords;
+  //   return habitObject;
+  // }
+  return null;
+}
+
+function updateCompletion(habitRecord) {
+  return db('habit_records').insert(habitRecord);
 }
 
 // takes in a user ID and returns all habits associated with the user

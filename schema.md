@@ -40,7 +40,7 @@ GET: /:id get a specific user by ID
 
 ### /habits
 
-POST: / to create new habit
+POST: /new to create new habit
 POST: /mark to create a new completion record on a habit by user and habit ID
 GET: /user/ to get a list of all habits by user ID
 GET: /all to get a list of all habits and all completion records by user ID

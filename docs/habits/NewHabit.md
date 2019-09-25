@@ -1,10 +1,10 @@
-# User
+# New Habit
 
-Used to get a list of all the habits (no completion records) by a userId.
+Used to create a new habit.
 
-**URL** : `/habits/user`
+**URL** : `/habits/new`
 
-**Method** : `GET`
+**Method** : `POST`
 
 **Auth required** : YES
 
@@ -14,7 +14,11 @@ Used to get a list of all the habits (no completion records) by a userId.
 
 **Data constraints**
 
-Required: none
+```json
+{
+    "name": "[new habit name in plain text]"
+}
+```
 
 Optional: `userId` parameter, otherwise defaults to logged in user
 
@@ -22,7 +26,7 @@ Optional: `userId` parameter, otherwise defaults to logged in user
 
 ```json
 {
-    "userId": 1
+    "name": "jogging"
 }
 ```
 
@@ -36,29 +40,23 @@ Optional: `userId` parameter, otherwise defaults to logged in user
 [
   {
     "id": 1,
-    "name": "example habit 1",
-    "createdOn": "2019-09-23",
+    "name": "jogging",
+    "createdOn": "2019-09-25",
     "userId": 1
-  },
-  {
-    "id": 2,
-    "name": "example habit 2",
-    "createdOn": "2019-09-24",
-    "userId": 1
-  },
+  }
 ]
 ```
 
 ## Error Response
 
-**Condition** : If userId selected has no habits or does not exist
+**Condition** : If 'name' is missing in the request body.
 
-**Code** : `400 BAD REQUEST`
+**Code** : `500 Internal Server Error`
 
 **Content** :
 
 ```json
 {
-  "habits": 0
+  "message": "Server error adding a new habit"
 }
 ```

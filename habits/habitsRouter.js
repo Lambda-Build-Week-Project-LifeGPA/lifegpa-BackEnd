@@ -21,7 +21,7 @@ router.get('/user', (req, res) => {
 });
 
 // POST create a new habit
-router.post('/', (req, res) => {
+router.post('/new', (req, res) => {
   const newDate = Date.now();
   req.body.createdOn = formatDate(newDate);
   req.body.userId = req.body.userId || req.decodedToken.sub;

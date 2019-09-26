@@ -77,7 +77,11 @@ router.post('/mark', (req, res) => {
   completed === undefined ? completed = true : completed = completed;
   Habits.updateCompletion({completed, date, habitId})
     .then(result => {
-      res.status(201).json(result);
+      if(result.err !== undefined) {
+        res.status(400).json({message: "HabitId does not exist"});
+      } else {
+        res.status(201).json(result);
+      }
     })
     .catch(err => {
       res.status(500).json({message: "Server error getting marking habit by ID and date"});

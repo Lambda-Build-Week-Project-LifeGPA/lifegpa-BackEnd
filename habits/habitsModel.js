@@ -33,32 +33,21 @@ async function getDate(userId, date) {
   // SELECT * from habits as h LEFTJOIN habit_records as r WHERE userId = userId
   const returnObject = await db('habits as h')
     .leftJoin('habit_records as r', 'h.id', 'r.habitId')
-    .select('h.id', 'h.name', 'h.createdOn', 'r.completed', 'r.date', 'r.habitId')
+    .select('h.id', 'h.name', 'h.createdOn', 'r.completed', 'r.date', 'r.id')
 //    .where('h.userId', userId);
   console.log(returnObject);
 
-  //  const hs=[]
-  //    for(let i = 0; i < returnObject.length; i ++){
-  //      let currHbObj = returnObject[i];
-  //     if(hs[currHbObj.id]){
-  //           //hs[records].push(currHbObj[completed])
-  //     }else{
-  //       hs.push()
-  //     }
-  //  }
+  const myArray=[];
+  for(let i = 0; i < returnObject.length; i++){
+    let currHbObj = returnObject[i];
+    if(myArray[currHbObj.habitId]){
+        //hs[records].push(currHbObj[completed])
+    }else{
+      myArray.push(currHbObj)
+    }
+  }
 
   return returnObject;
-
-  // return null;
-
-  // var getHabits = await db('habits').where({userId});
-  // var habitsRecords = await db('habit_records').where('habitId', id).select('completed', 'date');
-  // if(habitObject.length < 1) {
-  //   return null;
-  // } else {
-  //   habitObject[0].habitsRecords = habitsRecords;
-  //   return habitObject;
-  // }
 }
 
 async function updateCompletion(habitRecord) {

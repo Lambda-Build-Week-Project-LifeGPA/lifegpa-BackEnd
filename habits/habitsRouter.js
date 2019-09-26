@@ -76,13 +76,10 @@ router.post('/mark', (req, res) => {
   const date = req.body.date || formatDate(newDate);
   completed === undefined ? completed = true : completed = completed;
   Habits.updateCompletion({completed, date, habitId})
-    .then(record => {
-      console.log(record);
-      res.status(201).json({message:"something"});
-        // res.status(400).json({message: "habit ID is invalid"});
+    .then(result => {
+      res.status(201).json(result);
     })
     .catch(err => {
-      console.log(err);
       res.status(500).json({message: "Server error getting marking habit by ID and date"});
     })
 });

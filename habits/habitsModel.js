@@ -64,18 +64,33 @@ async function getDate(userId, date) {
 async function updateCompletion(habitRecord) {
   const {completed, date, habitId} = habitRecord;
   // search for an existing record for that date with that habitId
-  await db('habit_records').where({date, habitId}).first()
+  const lookupRecord = await db('habit_records').where({date, habitId}).first()
     .then(foundMatch => {
       // if record exists
       if(foundMatch) {
         // update it
-        return db('habit_records').where({id: foundMatch.id}).update({completed: completed});
-      // if the record doesn't exist
+        const updateObject = db('habit_records').where({id: foundMatch.id}).update({completed: completed})
+          .then(complete => {
+            return {message: "updated"};
+          })
+          .catch(err => {
+            return {err};
+          })
+        return updateObject;
+    // if the record doesn't exist
       } else {
         // create it
-        return db('habit_records').insert(habitRecord);
+        const insertObject = db('habit_records').insert(habitRecord)
+          .then(complete => {
+            return {message: "created"};
+          })
+          .catch(err => {
+            return {err};
+          })
+          return insertObject;
       }
     })
+  return lookupRecord;
 }
 
 // takes in a user ID and returns all habits associated with the user

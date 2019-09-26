@@ -61,8 +61,21 @@ async function getDate(userId, date) {
   // }
 }
 
-function updateCompletion(habitRecord) {
-  return db('habit_records').insert(habitRecord);
+async function updateCompletion(habitRecord) {
+  const {completed, date, habitId} = habitRecord;
+  // search for an existing record for that date with that habitId
+  await db('habit_records').where({date, habitId}).first()
+    .then(foundMatch => {
+      // if record exists
+      if(foundMatch) {
+        // update it
+        return db('habit_records').where({id: foundMatch.id}).update({completed: completed});
+      // if the record doesn't exist
+      } else {
+        // create it
+        return db('habit_records').insert(habitRecord);
+      }
+    })
 }
 
 // takes in a user ID and returns all habits associated with the user

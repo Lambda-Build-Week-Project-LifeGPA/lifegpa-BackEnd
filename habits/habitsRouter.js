@@ -77,14 +77,13 @@ router.post('/mark', (req, res) => {
   completed === undefined ? completed = true : completed = completed;
   Habits.updateCompletion({completed, date, habitId})
     .then(record => {
-      if(record) {
-        res.status(201).json(record);
-      } else {
-        res.status(400).json({message: "habit ID is invalid"});
-      }
+      console.log(record);
+      res.status(201).json({message:"something"});
+        // res.status(400).json({message: "habit ID is invalid"});
     })
     .catch(err => {
-      res.status(500).json({message: "Server error getting habit data by ID"});
+      console.log(err);
+      res.status(500).json({message: "Server error getting marking habit by ID and date"});
     })
 });
 

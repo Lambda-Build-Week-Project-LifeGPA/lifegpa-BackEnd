@@ -1,4 +1,4 @@
-# New Habit
+# Mark
 
 Used to update or create a habit record by logged in userId and a provided habit ID. Optionally you could provide a date not to use today as the default.
 

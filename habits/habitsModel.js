@@ -33,7 +33,7 @@ async function singleHabit(id) {
 async function getDate(userId, date) {
   const habits = await db('habits').where({userId});
   const habitRecords = habits.map(async (habit) => {
-    const records = await db('habit_records').where("habitId", habit.id);
+    const records = await db('habit_records').where('habitId', habit.id).andWhere('date', date);
     const h = habit;
     h.habitRecords = records;
     return h;
@@ -47,7 +47,7 @@ async function getDate(userId, date) {
 async function getAll(userId) {
   const habits = await db('habits').where({userId});
   const habitRecords = habits.map(async (habit) => {
-    const records = await db('habit_records').where("habitId", habit.id);
+    const records = await db('habit_records').where('habitId', habit.id);
     const h = habit;
     h.habitRecords = records;
     return h;

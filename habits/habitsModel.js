@@ -39,7 +39,6 @@ async function getDate(userId, date) {
     return h;
   })
 
-  console.log("habitRecords", habitRecords);
   return Promise.all(habitRecords);
 }
 
@@ -53,7 +52,6 @@ async function getAll(userId) {
     return h;
   })
 
-  console.log("habitRecords", habitRecords);
   return Promise.all(habitRecords);
 }
 

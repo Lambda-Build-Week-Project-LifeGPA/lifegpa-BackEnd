@@ -1,4 +1,4 @@
-# User
+# Single
 
 Used to get a habit by ID and a list of all it's completion records.
 

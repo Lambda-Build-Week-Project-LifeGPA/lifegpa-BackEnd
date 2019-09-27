@@ -5,7 +5,8 @@ module.exports = {
   singleHabit,
   getHabits,
   getDate,
-  updateCompletion
+  updateCompletion,
+  getAll
 }
 
 // takes in new habit object (name, userId) and returns the created habit object
@@ -28,26 +29,30 @@ async function singleHabit(id) {
   }
 }
 
-// takes in an habit ID and user ID and returns the habit object and all the completion records
+// takes in an user ID and date and returns the habit object and all the completion records
 async function getDate(userId, date) {
-  // SELECT * from habits as h LEFTJOIN habit_records as r WHERE userId = userId
-  const returnObject = await db('habits as h')
-    .leftJoin('habit_records as r', 'h.id', 'r.habitId')
-    .select('h.id', 'h.name', 'h.createdOn', 'r.completed', 'r.date', 'r.id')
-//    .where('h.userId', userId);
-  console.log(returnObject);
+  const habits = await db('habits').where({userId});
+  const habitRecords = habits.map(async (habit) => {
+    const records = await db('habit_records').where('habitId', habit.id).andWhere('date', date);
+    const h = habit;
+    h.habitRecords = records;
+    return h;
+  })
 
-  const myArray=[];
-  for(let i = 0; i < returnObject.length; i++){
-    let currHbObj = returnObject[i];
-    if(myArray[currHbObj.habitId]){
-        //hs[records].push(currHbObj[completed])
-    }else{
-      myArray.push(currHbObj)
-    }
-  }
+  return Promise.all(habitRecords);
+}
 
-  return returnObject;
+// takes in an user ID and returns all the habit object and all the completion records
+async function getAll(userId) {
+  const habits = await db('habits').where({userId});
+  const habitRecords = habits.map(async (habit) => {
+    const records = await db('habit_records').where('habitId', habit.id);
+    const h = habit;
+    h.habitRecords = records;
+    return h;
+  })
+
+  return Promise.all(habitRecords);
 }
 
 async function updateCompletion(habitRecord) {

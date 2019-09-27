@@ -5,7 +5,8 @@ module.exports = {
   singleHabit,
   getHabits,
   getDate,
-  updateCompletion
+  updateCompletion,
+  getAll
 }
 
 // takes in new habit object (name, userId) and returns the created habit object
@@ -28,12 +29,22 @@ async function singleHabit(id) {
   }
 }
 
-// takes in an habit ID and user ID and returns the habit object and all the completion records
+// takes in an user ID and date and returns the habit object and all the completion records
 async function getDate(userId, date) {
-  // var habitsRecords = await db('habit_records').where('habitId', id).select('completed', 'date');
+  const habits = await db('habits').where({userId});
+  const habitRecords = habits.map(async (habit) => {
+    const records = await db('habit_records').where("habitId", habit.id);
+    const h = habit;
+    h.habitRecords = records;
+    return h;
+  })
 
-  // SELECT * from habits as h LEFTJOIN habit_records as r WHERE userId = userId
+  console.log("habitRecords", habitRecords);
+  return Promise.all(habitRecords);
+}
 
+// takes in an user ID and returns all the habit object and all the completion records
+async function getAll(userId) {
   const habits = await db('habits').where({userId});
   const habitRecords = habits.map(async (habit) => {
     const records = await db('habit_records').where("habitId", habit.id);

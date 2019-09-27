@@ -61,13 +61,28 @@ router.get('/day', (req, res) => {
       if(record) {
         res.status(201).json(record);
       } else {
-        res.status(400).json({message: "habit ID is invalid"});
+        res.status(400).json({message: "user ID is invalid"});
       }
     })
     .catch(err => {
-      res.status(500).json({message: "Server error getting habit data by ID"});
+      res.status(500).json({message: "Server error getting habit data by user ID"});
     })
-// res.status(200).json({message: "nothing here yet"}); // working on this endpoint
+});
+
+// GET a list of all habits and completion records for logged in user
+router.get('/all', (req, res) => {
+  const userId = req.body.userId || req.decodedToken.sub;
+  Habits.getAll(userId)
+    .then(record => {
+      if(record) {
+        res.status(201).json(record);
+      } else {
+        res.status(400).json({message: "user ID is invalid"});
+      }
+    })
+    .catch(err => {
+      res.status(500).json({message: "Server error getting habit data by user ID"});
+    })
 });
 
 router.post('/mark', (req, res) => {
